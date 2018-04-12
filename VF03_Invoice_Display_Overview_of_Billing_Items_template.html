@@ -1,0 +1,723 @@
+<style type="text/css">
+	.activeTab{
+		border-bottom: 4px solid #2c95dd;
+	}
+	.navbar-nav>li>a {
+		padding-top: 10px !important; 
+		padding-bottom: 10px !important;
+	}
+</style>
+<script>
+	var exe_global={};
+	var exe_global_grid=[];
+	var exe_cc = {};
+	var exe_ret_ajax = {};
+	var exe_service = {};
+(function() {
+	var app = angular.module('Search').registerController('FormatStringPluginController', ['IACustomPresentationService', '$scope', '$timeout',
+		function(IACustomPresentationService, $scope, $timeout) {
+			var cc = this, record, i, k, j, isChecked = true;
+			exe_cc = cc;
+			cc.colCollection = [];
+			cc.currentPage = 0;
+			cc.isToggled = [];
+			cc.imgSrc = [];
+			cc.inlineTabs = [];
+			cc.inlineTabIndexes = [];
+			cc.sideTabs = [];
+			cc.arrDataTypes = [];
+			cc.dateSelectHide = true;
+			cc.currencySelectHide = true;
+			cc.timeSelectHide = true;
+			cc.ret_ajax_call = {};
+			cc.nAjaxCallCount = 0;
+			cc.isTotalDisplay = false;
+			cc.totalValue = 0;
+			cc.jsonData = 
+			{	check_date:true,
+				check_currency:true,
+				check_time:true,
+				panels:
+					{dir_name:"VF03 - Display Billing Document - DISPLAY",search_name:"VF03_Invoice_Display_Overview_of_Billing_Items",
+						panels:[{
+							panelName:"Main Panel",
+								tabs:[{
+								tabName:"_ia_Default_Main_tab_",title:null,
+									columns:[
+										{name:"cVBELN",label:"Billing Document",hidden:false,dataType:"STRING"},
+										{name:"cPOSNR",label:"Item",hidden:false,dataType:"STRING"},
+										{name:"cMATNR_name",label:"Materiel",hidden:false,dataType:"STRING"},
+										{name:"cARKTX",label:"Description",hidden:false,dataType:"STRING"},
+										{name:"cFKIMG_list",label:"Billed quantity",hidden:false,dataType:"STRING"},
+										{name:"cVRKME",label:"SU",hidden:false,dataType:"STRING"},
+										{name:"cNETWR",label:"Net Value",hidden:false,dataType:"CURRENCY"},
+										{name:"",label:"Partner",hidden:false,dataType:"NESTED"},
+										{name:"cBUKRS",label:"Company Code",hidden:true,dataType:"STRING"}]}]},{
+							panelName:"Side Panel",
+								tabs:[{
+								tabName:"_ia_Default_Detail_Side_tab_",title:null,
+									columns:[
+										{name:"cVBELN",label:"Billing Document",hidden:false,dataType:"STRING"},
+										{name:"cBUKRS",label:"Company code",hidden:false,dataType:"STRING"}]}]},{
+							panelName:"Inline Panel",
+								tabs:[{
+								tabName:"Tab 0",title:"Display : Item Data",
+									columns:[
+										{name:"cPOSNR",label:"Item",hidden:false,dataType:"STRING"},
+										{name:"cERNAM",label:"Created By",hidden:false,dataType:"STRING"},
+										{name:"cPSTYV",label:"Item Category",hidden:false,dataType:"STRING"},
+										{name:"cERDAT",label:"Created on",hidden:false,dataType:"DATE"},
+										{name:"cERZET",label:"Time",hidden:false,dataType:"TIME"},
+										{name:"cMATNR",label:"Material",hidden:false,dataType:"STRING"},
+										{name:"cCHARG",label:"Batch",hidden:false,dataType:"STRING"}]},{
+								tabName:"Tab 1",title:"Billing Data",
+									columns:[
+										{name:"cFKIMG",label:"Billed Quantity",hidden:false,dataType:"STRING"},
+										{name:"cFKLMG",label:"Bill. qty in SKU",hidden:false,dataType:"STRING"},
+										{name:"cNTGEW",label:"Net weight",hidden:false,dataType:"STRING"},
+										{name:"cBRGEW",label:"Gross weight",hidden:false,dataType:"STRING"},
+										{name:"cUMVKN",label:"Qty.cover",hidden:false,dataType:"STRING"},
+										{name:"cVOLUM",label:"Volume",hidden:false,dataType:"STRING"},
+										{name:"cWERKS",label:"Plant",hidden:false,dataType:"STRING"},
+										{name:"cSPART",label:"Division",hidden:false,dataType:"STRING"},
+										{name:"cAUBEL",label:"Sale Document",hidden:false,dataType:"STRING"},
+										{name:"cLGORT",label:"Storr.Location",hidden:false,dataType:"STRING"},
+										{name:"cVGBEL",label:"Reference doc.",hidden:false,dataType:"STRING"},
+										{name:"cUVALL",label:"Incompletion Log.",hidden:false,dataType:"STRING"}]},{
+								tabName:"Tab 2",title:"Price Data",
+									columns:[
+										{name:"cPRSDT",label:"Pricing date",hidden:false,dataType:"DATE"},
+										{name:"cABRGB",label:"AcctSettleStart",hidden:false,dataType:"STRING"},
+										{name:"cPMATN",label:"Pr.Ref.Matl",hidden:false,dataType:"STRING"},
+										{name:"cFBUDA",label:"Serv.renderd",hidden:false,dataType:"DATE"},
+										{name:"cMPROK",label:"Manual Price",hidden:false,dataType:"STRING"},
+										{name:"cPRSFD",label:"Pricing",hidden:false,dataType:"STRING"},
+										{name:"cKOWRR",label:"Statist.Value",hidden:false,dataType:"STRING"},
+										{name:"cSHKZG",label:"Return",hidden:false,dataType:"STRING"},
+										{name:"cKONDM",label:"Mat.Pricing.grp",hidden:false,dataType:"STRING"},
+										{name:"cBONUS",label:"Vol.rebate.grp",hidden:false,dataType:"STRING"},
+										{name:"cPROVG",label:"Commission grp",hidden:false,dataType:"STRING"},
+										{name:"cMATKL",label:"Material group",hidden:false,dataType:"STRING"},
+										{name:"cPRODH",label:"Prod.Hierarchy",hidden:false,dataType:"STRING"},
+										{name:"cSKTOF",label:"Cash discount",hidden:false,dataType:"STRING"},
+										{name:"cUVPRS",label:"imcompl.pricing",hidden:false,dataType:"STRING"}]},{
+								tabName:"Tab 3",title:"Accounting",
+									columns:[
+										{name:"cALAND",label:"Country",hidden:false,dataType:"STRING"},
+										{name:"cTAXM1",label:"Tax class.mat",hidden:false,dataType:"STRING"},
+										{name:"cGSBER",label:"Business Area",hidden:false,dataType:"STRING"},
+										{name:"cSKFBP",label:"csh.disc.bas",hidden:false,dataType:"CURRENCY"},
+										{name:"cKTGRM",label:"Acct asgnmt grp",hidden:false,dataType:"STRING"},
+										{name:"cWKCTY",label:"City-dlv.plant",hidden:false,dataType:"STRING"},
+										{name:"cWKCOU",label:"County-dlv.plnt",hidden:false,dataType:"STRING"},
+										{name:"cWKREG",label:"Region.dvl.plnt",hidden:false,dataType:"STRING"}]},{
+								tabName:"Tab 4",title:"Account assignment",
+									columns:[
+										{name:"cGSBER",label:"Business Area",hidden:false,dataType:"STRING"},
+										{name:"cKOSTL",label:"Cost Center",hidden:false,dataType:"STRING"},
+										{name:"cAUFNR",label:"Order",hidden:false,dataType:"STRING"},
+										{name:"cPRCTR",label:"Profit Center",hidden:false,dataType:"STRING"},
+										{name:"cPS_PSP_PNR",label:"WBS Element",hidden:false,dataType:"STRING"}]},{
+								tabName:"Tab 5",title:"Sales Order Data",
+									columns:[
+										{name:"cLLAND_AUFT",label:"DestcTryOrder",hidden:false,dataType:"STRING"},
+										{name:"cKDGRP_AUFT",label:"CustGrpSISorder",hidden:false,dataType:"STRING"},
+										{name:"REGIO_AUFT",label:"Region Order",hidden:false,dataType:"STRING"},
+										{name:"cKONDA_AUFT",label:"Price Group Order",hidden:false,dataType:"STRING"},
+										{name:"cVKORG_AUFT",label:"Sorg of Order",hidden:false,dataType:"STRING"},
+										{name:"cPLTYP_AUFT",label:"Price list ord.",hidden:false,dataType:"STRING"},
+										{name:"cVTWEG_AUFT",label:"Dist Chan Order",hidden:false,dataType:"STRING"},
+										{name:"cSPARA",label:"Division",hidden:false,dataType:"STRING"},
+										{name:"cEAN11",label:"EAN\/UCP",hidden:false,dataType:"STRING"},
+										{name:"cMATWA",label:"Material Entered",hidden:false,dataType:"STRING"},
+										{name:"cBZIRK_AUFT",label:"Slsdist. Order",hidden:false,dataType:"STRING"},
+										{name:"cAUGRU_AUFT",label:"Order reason",hidden:false,dataType:"STRING"},
+										{name:"cVKGRP",label:"Sale Group",hidden:false,dataType:"STRING"},
+										{name:"cVKAUS",label:"Usage",hidden:false,dataType:"STRING"},
+										{name:"cVKBUR",label:"Sales Office",hidden:false,dataType:"STRING"},
+										{name:"cMSR_RET_REASON",label:"Return Reason",hidden:false,dataType:"STRING"},
+										{name:"cMSR_REFUND_CODE",label:"Refund Codes",hidden:false,dataType:"STRING"}]}]}]}
+			};
+			cc.gotoPageNumber = function(_number){
+				$scope.$emit('IA_SEARCH_CUSTOM_RESULT_GO_TO_PAGE', {pageNumber: _number});
+			}
+			cc.jsonpcallback = function(data){
+				console.log(data);
+				exe_cc.ret_ajax_call = data;//JSON.parse(data);
+				exe_ret_ajax = exe_cc.ret_ajax_call;
+				exe_cc.arrDataTypes = [];
+
+				exe_cc.dateSelectHide = !exe_cc.ret_ajax_call.check_date;
+				exe_cc.currencySelectHide = !exe_cc.ret_ajax_call.check_currency;
+				exe_cc.timeSelectHide = !exe_cc.ret_ajax_call.check_time;
+
+				var tabs = exe_cc.ret_ajax_call.panels.panels[0].tabs[0];
+				for( var i = 0; i < exe_cc.ret_ajax_call.panels.panels.length; i++){
+					var panel = exe_cc.ret_ajax_call.panels.panels[i];
+					if( panel.panelName == "Inline Panel" ){
+						exe_cc.inlineTabs = [];
+						for( var j = 0; j < panel.tabs.length; j++){
+							exe_cc.inlineTabs.push(panel.tabs[j]);
+						}
+					} else if( panel.panelName == "Side Panel"){
+						exe_cc.sideTabs = [];
+						for( var j = 0; j < panel.tabs.length; j++){
+							exe_cc.sideTabs.push(panel.tabs[j]);
+						}
+					}
+				}
+				for( var ii = 0; ii < tabs.columns.length; ii++){
+					exe_cc.colCollection.push(tabs.columns[ii]);
+				}
+				for( var i = 0; i < exe_cc.ret_ajax_call.panels.panels.length; i++){
+					var panels = exe_cc.ret_ajax_call.panels.panels[i];
+					for( var j = 0; j < panels.tabs.length; j++){
+						var tabs = panels.tabs[j];
+						for( var k = 0; k < tabs.columns.length; k++){
+							var column = tabs.columns[k];
+							if( !exe_cc.arrDataTypes[column.name]){
+								exe_cc.arrDataTypes[column.name] = column.dataType;
+							}
+						}
+					}
+				}
+				// exe_cc.processSearchResultData();
+				// exe_cc.gotoPageNumber();
+			}
+			cc.jsonpcallback(cc.jsonData);
+			cc.processSearchResultData = function () {
+				exe_global = IACustomPresentationService;
+				cc.searchResultCollection = [];
+				cc.searchResultCollection = IACustomPresentationService.getSearchResult();
+				cc.pageInfo = IACustomPresentationService.getPageInfo();
+				cc.currentPage = cc.pageInfo.currentPage;
+				cc.gridRecords = [];
+				cc.results = cc.searchResultCollection;
+				if( cc.results.length ){
+					if( cc.results[0].columns[0].name == "cAAA"){
+						cc.isTotalDisplay = true;
+						cc.totalValue = cc.results[0].columns[0].value;
+					}
+				}
+
+				cc.anyContentUnavailable = IACustomPresentationService.isAnyContentUnAvailable(cc.results, cc.colCollection);
+
+				cc.imgSrc = [];
+				cc.isToggled = [];
+				cc.inlineTabIndexes = [];
+				for (k = 0; k < cc.results.length; k += 1) {
+					cc.imgSrc.push("images/row_collapsed_20.png");
+					cc.isToggled.push(false);
+					cc.inlineTabIndexes[k] = 0;
+					record = {};
+						record.isSelected = false;
+					if (angular.isDefined(cc.results[k].id)) {
+								record.id = cc.results[k].id;
+					}
+					for (j = 0; j < cc.results[k].columns.length; j += 1) {
+						record[cc.results[k].columns[j].name] = {};
+						var displayType = cc.arrDataTypes[cc.results[k].columns[j].name];
+						switch(displayType){
+							case 'DATE':
+								record[cc.results[k].columns[j].name].value = cc.changeDateFormat(cc.results[k].columns[j].value);
+								break;
+							case 'CURRENCY':
+								record[cc.results[k].columns[j].name].value = cc.changeCurrencyFormat(cc.results[k].columns[j].value);
+								break;
+							case 'PERIOD':
+								record[cc.results[k].columns[j].name].value = cc.changePeriodFormat(cc.results[k].columns[j].value);
+								break;
+							case 'TIME':
+								record[cc.results[k].columns[j].name].value = cc.changeTimeFormat(cc.results[k].columns[j].value);
+								break;
+							default:
+								record[cc.results[k].columns[j].name].value = cc.results[k].columns[j].value;
+								break;
+						}
+						record[cc.results[k].columns[j].name]._links = cc.results[k].columns[j]._links;
+						record[cc.results[k].columns[j].name].rows = cc.results[k].columns[j].rows;
+					}
+					cc.gridRecords.push(record);
+				}
+			};
+			cc.selChangedOptions = function(){
+				for (k = 0; k < cc.gridRecords.length; k += 1) {
+					for (j = 0; j < cc.results[k].columns.length; j += 1) {
+						var displayType = cc.arrDataTypes[cc.results[k].columns[j].name];
+						switch(displayType){
+							case 'DATE':
+								cc.gridRecords[k][cc.results[k].columns[j].name].value = cc.changeDateFormat(cc.results[k].columns[j].value);
+								break;
+							case 'CURRENCY':
+								cc.gridRecords[k][cc.results[k].columns[j].name].value = cc.changeCurrencyFormat(cc.results[k].columns[j].value);
+								break;
+							case 'PERIOD':
+								cc.gridRecords[k][cc.results[k].columns[j].name].value = cc.changePeriodFormat(cc.results[k].columns[j].value);
+								break;
+							case 'TIME':
+								cc.gridRecords[k][cc.results[k].columns[j].name].value = cc.changeTimeFormat(cc.results[k].columns[j].value);
+								break;
+							default:
+								cc.gridRecords[k][cc.results[k].columns[j].name].value = cc.results[k].columns[j].value;
+								break;
+						}
+					}
+				}
+			}
+			/**
+			* This method is called from html code to indicate a row is selected or deselected, the row is then passed
+			* To the controller code which in turn modfies the internal selection data model.
+			**/
+			cc.rowSelectionChange = function (row) {
+				IACustomPresentationService.rowSelectionChange(row);
+			};
+			/**
+			* On REFRESH event, re-process the new search result
+			**/
+			$scope.$on('IA_SEARCH_CUSTOM_RESULT_REFRESH', function (event, args) {
+				cc.processSearchResultData(); 
+			});
+			/**
+			* On SELECT_ALL_ROWS event, redirect the handling to IACustomPresentationService
+			**/
+			$scope.$on('IA_SEARCH_CUSTOM_RESULT_SELECT_ALL_ROWS', function (event, args) {
+				IACustomPresentationService.selectAllRows(cc.gridRecords);
+					$scope.$emit('IA_SEARCH_CUSTOM_RESULT_SELECT_ROWS', {selectedRows: IACustomPresentationService.getRowSelectionStore(), isSelectAll: true});
+			});
+			$scope.$on('IA_SEARCH_CUSTOM_RESULT_DESELECT_ALL_ROWS', function (event, args) {
+				IACustomPresentationService.deselectAllRows(cc.gridRecords);
+					$scope.$emit('IA_SEARCH_CUSTOM_RESULT_SELECT_ROWS', {selectedRows: IACustomPresentationService.getRowSelectionStore()});
+			});
+			cc.downloadContent = function (record) { 
+					$scope.$emit('IA_SEARCH_CUSTOM_RESULT_DOWNLOAD_CONTENT', {record: record});
+			};
+			/**
+			* This function calls the custom service and examines _links property of the record, if its NULL it means content is not available.
+			*/
+			cc.isContentAvailable = function (record) { 
+					return IACustomPresentationService.isContentAvailable(record);
+			};
+			/**
+			* The secelcted record and the column index of the column in result list are emitted from custom code.
+			* [The developer needs to configure a column ahead of time and use te	index of that column here]
+			*/
+			cc.viewContent = function (record, _index) { 
+				$scope.$emit('IA_SEARCH_CUSTOM_RESULT_VIEW_CONTENT', {record: record, colIndex: _index});
+			};
+			/**
+			* While process the result records, examin the records for col which are of download or voew content types, and see if their _links property
+			* is NULL or (defined and not null).
+			*/
+			cc.isAnyContentUnAvailable	= function () {
+				return cc.anyContentUnavailable;
+			};
+			/**
+			* Calls the service launchContentRequest to launch a dialog box which enables user to name the order item for the asynchronous search
+			* which initiates content restoration.
+			*/
+			cc.launchContentRequest = function () {
+				IACustomPresentationService.requestContentRestore();
+			};
+			/**
+			* colIndex: Column index representing the index of the nested search column which was set in the result list tab of this search
+			*/
+			cc.nestedSearch = function (record, _index) { 
+				console.log("nested Search " + _index);
+				$scope.$emit('IA_SEARCH_CUSTOM_LAUNCH_NESTED_SEARCH', {record: record, colIndex: _index});
+			};
+			/**
+			* sortColumn, Sends out IA_SEARCH_CUSTOM_RESULT_SORT_COLUMN with column name and direction encoded as arguments of the event.
+			**/
+			cc.sortColumn = function (col) {
+				if (col.direction === 'asc') {
+					col.direction = 'desc';
+				} else{
+					col.direction = 'asc';
+				} 
+				$scope.$emit('IA_SEARCH_CUSTOM_RESULT_SORT_COLUMN', {columnName: col.name, direction: col.direction});
+			};
+			/**
+			* If the Event key is KEY_RETURN then emits IA_SEARCH_CUSTOM_RESULT_GO_TO_PAGE event.
+			**/
+			cc.goToPage = function (gotoPN, event) {
+				if (event.keyCode === 13) {		
+					$scope.$emit('IA_SEARCH_CUSTOM_RESULT_GO_TO_PAGE', {pageNumber: gotoPN});
+				}
+			};
+			/**
+			* This utility method, checks if there is a previous page, then sends out a request to navigate to the previous page
+			* of search results.
+			**/
+			cc.prev = function () {
+				if (cc.canPrev()) {
+					$scope.$emit('IA_SEARCH_CUSTOM_RESULT_GO_TO_PAGE', {pageNumber: cc.currentPage - 2});
+				}
+			};
+			/**
+			* This utility method, checks if there is a next page, then sends out a request to navigate to the next page
+			* of search results.
+			**/
+			cc.next = function () {
+				if (cc.canNext()) {
+					$scope.$emit('IA_SEARCH_CUSTOM_RESULT_GO_TO_PAGE', {pageNumber: cc.currentPage});
+				}
+			};
+			/**
+			* This utility method, invokes the corresponding IACustomPresentationService, to check if there is a next page
+			**/
+			cc.canNext = function () {
+				return IACustomPresentationService.canNext();
+			};
+			/**
+			* This utility method, invokes the corresponding IACustomPresentationService, to check if there is a previous page
+			**/
+			cc.canPrev = function () {
+				return IACustomPresentationService.canPrev();
+			};
+			/**
+			* If the Event key is KEY_RETURN then sets the page size and emits IA_SEARCH_CUSTOM_RESULT_GO_TO_PAGE event to go to 1st page.
+			**/
+			cc.setPageSize = function (size, event) {
+				if (event.keyCode === 13) {
+					IACustomPresentationService.setPageSize(size);
+					$scope.$emit('IA_SEARCH_CUSTOM_RESULT_GO_TO_PAGE', {pageNumber: 0});
+				}
+			};
+			cc.toggleDetail = function(record, _rowIndex){
+				cc.isToggled[_rowIndex] = !cc.isToggled[_rowIndex];
+				if( cc.imgSrc[_rowIndex] == "images/row_expanded_20.png"){
+					cc.imgSrc[_rowIndex] = "images/row_collapsed_20.png";
+				} else{
+					cc.imgSrc[_rowIndex] = "images/row_expanded_20.png";
+				}
+			}
+			cc.changePeriodFormat = function(period){
+				if( period == "") return "";
+				if( !period ) return "";
+				var arrBuf = period.split("to");
+				var strFrom = arrBuf[0];
+				strFrom = strFrom.replace(/ /g, "");
+				strFrom = cc.changeDateFormat(strFrom);
+				var strTo = "";
+				if( arrBuf.length != 1){
+					strTo = arrBuf[1];
+					strTo = strTo.replace(/ /g, "");
+				}
+				strTo = cc.changeDateFormat(strTo);
+				if( strFrom == "" && strTo == ""){
+					return "";
+				}
+				return strFrom + " to " + strTo;
+			}
+			cc.changeDateFormat = function(date){
+				if( date == "") return date;
+				var arrStrings = date.split("T");
+				if(arrStrings.length == 0) return date;
+				var strDate = arrStrings[0];
+				var arrBuf = strDate.split("-");
+				var strYear = "";
+				var strMonth = "";
+				var strDay = "";
+				if(arrBuf.length >= 3){
+					strYear = arrBuf[0];
+					strMonth = arrBuf[1];
+					strDay = arrBuf[2];
+				} else {
+					arrBuf = strDate.split("/");
+					if(arrBuf.length >= 3){
+						strYear = arrBuf[0];
+						strMonth = arrBuf[1];
+						strDay = arrBuf[2];
+					} else {
+						if(arrBuf[0].length == 8){
+							var strBuf = arrBuf[0];
+							strYear = strBuf.substr(0, 4);
+							strMonth = strBuf.substr(4, 2);
+							strDay = strBuf.substr(6, 2);
+						} else{
+						return strDate;
+					}
+					}
+				}
+				switch( $scope.selectedDate){
+					case 'YYYY-MM-DD': return strYear + "-" + strMonth + "-" + strDay;
+					case 'YYYY/MM/DD': return strYear + "/" + strMonth + "/" + strDay;
+					case 'YYYY.MM.DD': return strYear + "." + strMonth + "." + strDay;
+					case 'DD.MM.YYYY': return strDay + "." + strMonth + "." + strYear;
+					case 'MM/DD/YYYY': return strMonth + "/" + strDay + "/" + strYear;
+					case 'MM-DD-YYYY': return strMonth + "-" + strDay + "-" + strYear;
+				}
+				return strDate;
+			};
+			cc.changeCurrencyFormat = function(currency){
+				if( typeof currency == "undefined") return "";
+				if( !(currency)) return "";
+					if( currency == "") return currency;
+				var arrCurrency = currency.split(" ");
+				currency = arrCurrency[0];
+				var arrDecimal = currency.split('.');
+				var strInt = arrDecimal[0].replace(/,/g,"");
+				strInt = parseInt(strInt);
+				if( isNaN(strInt)){
+					strInt = 0;
+				}
+				strInt = strInt + "";
+				var strUni = "";
+				if( arrDecimal.length != 1) strUni = arrDecimal[1];
+				strUni = (strUni+"00").substr(0,2);
+
+				switch( $scope.selectedCurrency){
+					case '1.234.567,89': strInt = strInt.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",";break;
+					case '1,234,567.89': strInt = strInt.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ".";break;
+					case '1 234 567,89': strInt = strInt.replace(/\B(?=(\d{3})+(?!\d))/g, " ") + ",";break;
+				}
+				return strInt + strUni + (arrCurrency.length > 1 ? " " + arrCurrency[1] : "");
+			};
+			cc.changeTimeFormat = function(time){
+				if( time == "") return time;
+				var arrBuf = time.split("T");
+				var strTime = "";
+				if( arrBuf.length == 1){
+					strTime = arrBuf[0];
+				}
+				else{
+					strTime = arrBuf[1];
+				}
+				var strTime = strTime.split(".")[0];
+				if( strTime.indexOf("PM") != -1 || strTime.indexOf("AM") != -1){
+					var strRealTime = strTime.split(" ")[0];
+					var arrTimes = strRealTime.split(":");
+					if(strTime.indexOf("PM") != -1){
+						arrTimes[0] = 12 + parseInt(strTime[0]);
+					}
+					if( $scope.selectedTime == '12 Hour Format (12:05:10 PM)'){
+						var tt = parseInt(arrTimes[0]);
+						if(isNaN(tt)) return time;
+						var PM = (tt>=12 ? " PM" : " AM");
+						strTime = (tt > 9 ? tt : "0"+tt) + ":" + arrTimes[1] + ":" + arrTimes[2] + PM;
+					} else{
+						strTime = (arrTimes[0] > 9 ? arrTimes[0] : "0"+arrTimes[0]) + ":" + arrTimes[1] + ":" + arrTimes[2];
+					}
+				}
+				var arrTimes = strTime.split(":");
+				if((arrTimes.length >= 3) && ( $scope.selectedTime == '12 Hour Format (12:05:10 PM)')){
+					var tt = parseInt(arrTimes[0]);
+					if(isNaN(tt)) return strTime;
+					var PM = (tt>=12 ? " PM" : " AM");
+					tt %= 12;
+					strTime = (tt > 9 ? tt : "0"+tt) + ":" + arrTimes[1] + ":" + arrTimes[2] + PM;
+					return strTime;
+				}
+				return strTime;
+			}
+			cc.inlineTabClicked = function(_rowIndex, _tabIndex){
+				cc.inlineTabIndexes[_rowIndex] = _tabIndex;
+			}
+			cc.expandRightSidebar = function(){
+				cc.mainPanelSize = 0;
+				cc.setMainPanelSize(cc.mainPanelSize);
+			}
+			cc.incrementRightClasses = function(){
+				cc.mainPanelSize --;
+				cc.mainPanelSize = cc.mainPanelSize < 6 ? 0 : cc.mainPanelSize;
+				cc.setMainPanelSize(cc.mainPanelSize);
+			}
+			cc.decrementRightClasses = function(){
+				cc.mainPanelSize ++;
+				cc.mainPanelSize = cc.mainPanelSize < 6 ? 8 : cc.mainPanelSize;
+				cc.mainPanelSize = cc.mainPanelSize >= 11 ? 12 : cc.mainPanelSize;
+				cc.setMainPanelSize(cc.mainPanelSize);
+			}
+			cc.toggleRight = function(){
+				cc.mainPanelSize = 12;
+				cc.setMainPanelSize(cc.mainPanelSize);
+			}
+			cc.resetSidebar = function(){
+				cc.mainPanelSize = 8;
+				cc.setMainPanelSize(cc.mainPanelSize);
+			}
+			cc.setMainPanelSize = function(){
+				cc.mainPanel = "col-xs-" + cc.mainPanelSize;
+				cc.sidePanel = "col-xs-" + (12 - cc.mainPanelSize);				
+			}
+			cc.dtFormat = ['YYYY-MM-DD','DD.MM.YYYY','MM/DD/YYYY','MM-DD-YYYY','YYYY.MM.DD','YYYY/MM/DD'];
+			cc.decFormat = ['1.234.567,89','1,234,567.89','1 234 567,89'];
+			cc.tmFormat = ['12 Hour Format (12:05:10 PM)','24 Hour Format (12:05:10)'];
+			$scope.selectedDate = 'YYYY-MM-DD';
+			$scope.selectedCurrency = '1,234,567.89';
+			$scope.selectedTime = '12 Hour Format (12:05:10 PM)';
+			cc.mainPanelSize = 8;
+			cc.mainPanel = "col-xs-8";
+			cc.sidePanel = "col-xs-4";
+			$timeout(cc.processSearchResultData, 0);
+	}]);
+})();
+</script>
+<h1>Results</h1>
+<div id="FirstNameCheckbox" ng-controller="FormatStringPluginController as cc">
+	<span id="EXE_DATE" ng-hide="cc.dateSelectHide">
+		Date Format: <select ng-model="selectedDate" ng-change="cc.selChangedOptions()"><option ng-repeat="x in cc.dtFormat" value="{{x}}">{{x}}</option></select>
+	</span>
+	<span id="EXE_CURRENCY" ng-hide="cc.currencySelectHide">
+		&nbsp;&nbsp; Decimal Notation: <select ng-model="selectedCurrency" ng-change="cc.selChangedOptions()"><option ng-repeat="x in cc.decFormat" value="{{x}}">{{x}}</option></select>
+	</span>
+	<span id="EXE_TIME" ng-hide="cc.timeSelectHide">
+		&nbsp;&nbsp; Time Format: <select ng-model="selectedTime" ng-change="cc.selChangedOptions()"><option ng-repeat="x in cc.tmFormat" value="{{x}}">{{x}}</option></select>
+	</span>
+	
+	<!-- Pagination -->
+	<div class="row">
+		<div class="col-xs-6">
+			<span>
+			<strong>Total Records:</strong>&nbsp;&nbsp;{{cc.pageInfo.totalElements}}&nbsp;&nbsp;&nbsp;&nbsp;
+			<strong>Records/page:</strong>&nbsp;&nbsp;
+			<input type="number" title="Type Enter to set page size" size="8" min="1" max="100" ng-model="cc.pageInfo.size" ng-keyup="cc.setPageSize(cc.pageInfo.size, $event)"/><span>
+			<a class="btn btn-link" aria-label="Previous" ng-disabled="!cc.canPrev()" ng-click="cc.prev()"><i class="icon-IA-Icons-prevpage"></i></a>
+			<span>
+			<strong>Page:</strong>&nbsp;&nbsp;
+			<input type="number" title="Type Enter to go to page" size="8" min="1" max="{{cc.pageInfo.totalPages}}" ng-model="cc.pageInfo.currentPage" ng-keyup="cc.goToPage(cc.pageInfo.currentPage - 1, $event)"/>&nbsp;<strong>of</strong>&nbsp; {{cc.pageInfo.totalPages}}<span>
+			<a class="btn btn-link" aria-label="Next" ng-disabled="!cc.canNext()" ng-click="cc.next()"><i class="icon-IA-Icons-nextpage"></i></a>
+		</div>
+		<div class="col-xs-12" ng-if="cc.isTotalDisplay">
+			<label>Total : <span>{{cc.totalValue}}</span></label>
+		</div>
+		<!-- This block is added to demonstrated How to request content restoration -->
+		<!-- This is not needed as InfoArchive provides the link in its result page toolbar -->
+		<!--	<div ng-if="cc.isAnyContentUnAvailable()" class="pull-right" style="height: 100%; padding: 5px;">
+				<i style="color:#e69021;" class="icon-SVG_Error ia-icon-table-row"></i><a class="btn btn-link" id="ia-search-content-request-restore" ng-click="cc.launchContentRequest()">REQUEST CONTENT</a>
+		</div>	-->
+	</div>
+
+	<div class="row col-xs-12">
+		<button ia-sb-right-button="" ng-hide="cc.mainPanelSize != 12" class="btn btn-link ia-global-icon-font ia-sidebar-button ia-right-clear ia-border-clear" ng-click="cc.resetSidebar()" style="">
+				<i class="icon-IA-Icons-resize-caret-left" style=""></i>
+		</button>
+		<div ng-class="cc.mainPanel" ng-hide="!cc.mainPanelSize">
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th id="ia-search-run-drill-down" block-th-width="40px" ng-if="vm.hasInlinePanel() && cc.colCollection.length > 0 && cc.gridRecords.length > 0" class="ia-search-table-border ng-scope" ng-style="{'width': '40px'}" style="width: 50px;"></th>
+							<th ng-style="{'width': '3%'}"></th>
+							<th ng-click="cc.sortColumn(col)" ng-repeat="col in cc.colCollection track by $index" ng-hide="cc.ret_ajax_call.panels.panels[0].tabs[0].columns[$index].hidden">
+									<span>{{col.label !== null ? col.label : col.name}}</span>
+							</th>
+					</tr>
+				</thead>
+				<tbody>
+						<tr ng-repeat-start="record in cc.gridRecords track by $index">
+							<!-- modified start-->
+					<td ng-if="vm.hasInlinePanel() && cc.colCollection.length > 0" class="ia-search-table-border ng-scope">
+						<button id="ia-search-expand-collapse-button-{{$index}}" class="drill-down-img-button btn-link" ng-click="cc.toggleDetail(record, $parent.$index)">
+							<img id="ia-search-expand-collapse-image-{{$index}}" ng-src="{{cc.imgSrc[$parent.$index]}}">
+						</button>
+					</td>
+							<!-- modified end-->
+								<td ng-if="cc.colCollection.length > 0">
+										<div class="text-center">
+												<input type="checkbox" ng-model="record.isSelected" ng-click="cc.rowSelectionChange(record)"/>
+										</div>
+								</td>
+								<td ng-repeat="col in cc.colCollection track by $index" ng-hide="cc.ret_ajax_call.panels.panels[0].tabs[0].columns[$index].hidden">
+									<span ng-if="col.dataType !== 'DOWNLOAD_CONTENT' && col.dataType !== 'VIEW_CONTENT' && col.dataType !== 'NESTED' && col.dataType !== 'LINK'">{{record[col.name].value}}</span>
+									<span ng-if="col.dataType === 'DOWNLOAD_CONTENT'">
+											<span ng-if="!cc.isContentAvailable(record[col.name])">
+														<i style="color:#e69021; cursor: default;" class="icon-SVG_Error ia-icon-table-row ia-anchor-without-underscore-on-hover"></i>
+												</span>
+											<span ng-if="cc.isContentAvailable(record[col.name])" >
+													<a ng-click="cc.downloadContent(record[col.name])" style="cursor: pointer;">Download</a>
+											</span>
+									</span>
+									<span ng-if="col.dataType === 'VIEW_CONTENT'">
+											<span ng-if="!cc.isContentAvailable(record[col.name])">
+													<i style="color:#e69021; cursor: default;" class="icon-SVG_Error ia-icon-table-row ia-anchor-without-underscore-on-hover"></i>
+											</span>
+											<span ng-if="cc.isContentAvailable(record[col.name])" >
+													<a ng-click="cc.viewContent(record, index)" style="cursor: pointer;">View</a>
+											</span>
+									</span>
+									<span ng-if="col.dataType === 'NESTED'"><a ng-click="cc.nestedSearch(record, $index)" style="cursor: pointer;">{{record[col.name].value ? record[col.name].value : col.label}}</a></span>
+									<span ng-if="col.dataType === 'LINK'"><a ng-click="vm.runExternalLink(record, $index)" class="ia-el-clickable ng-binding ng-scope">URL&nbsp;&nbsp;</a><i class="icon-IA-Icons-external ia-icon-table-row ng-scope"></i></span>
+
+								</td>
+						</tr>
+						<tr ng-repeat-end class="details" ng-if="cc.isToggled[$index] && vm.hasInlinePanel()">
+							<td></td>
+							<td colspan="{{cc.colCollection.length + 1}}">
+								<ul ng-if="cc.inlineTabs.length > 1" class="nav navbar-nav" role="tablist" style="width: 735px;">
+									<li ng-class="{activeTab: $index == cc.inlineTabIndexes[$parent.$parent.$index]}" ng-repeat="inlineTab in cc.inlineTabs track by $index" ng-if="tab.title != ''">
+										<a role="tab" ng-click="cc.inlineTabClicked($parent.$parent.$index, $index)" class="ia-el-clickable">
+											<span class="ia-search-comp-tab-textoverflow ng-binding" title="inlineTab.title">{{inlineTab.title}}</span>
+										</a>
+									</li>
+								</ul>
+								<div ng-repeat="inlineTab in cc.inlineTabs track by $index">
+									<div ng-if="cc.inlineTabIndexes[$parent.$index] == $index">
+										<div ng-repeat="inlineCol in inlineTab.columns" class="col-lg-12 col-md-12 col-xs-12" style="padding-top: 5px; padding-bottom: 5px;">
+											<div class="col-xs-3 col-lg-3 col-md-3 text-right">
+												<strong>{{inlineCol.label}}</strong>
+											</div>
+											<div class="col-xs-9 col-lg-9 col-md-9">
+												<span>{{record[inlineCol.name].value}}</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+				</tbody>
+			</table>
+		</div>
+		<div ng-class="cc.sidePanel" style="background-color: #f2f3f4;" ng-hide="cc.mainPanelSize == 12">
+			<div class="row">
+				<button ia-sb-right-button="" class="btn btn-link ia-global-icon-font ia-sidebar-button ia-left-10px ia-border-clear" ng-click="cc.expandRightSidebar()">
+					<i class="icon-SVG_PanelHandleLeftDir"></i>
+				</button>
+				<button ia-sb-right-button="" class="btn btn-link ia-global-icon-font ia-sidebar-button ia-left-30px ia-border-clear ia-height-20px" ng-click="cc.incrementRightClasses()">
+					<i class="icon-IA-Icons-resize-caret-left"></i>
+				</button>
+				<button ia-sb-right-button="" class="btn btn-link ia-global-icon-font ia-sidebar-button ia-border-clear ia-height-20px" ng-click="cc.decrementRightClasses()" style="left: 50px;">
+					<i class="icon-IA-Icons-resize-caret-right"></i>
+				</button>
+				<button ia-sb-right-button="" class="btn btn-link ia-global-icon-font ia-sidebar-button ia-border-clear" ng-click="cc.toggleRight()" style="left: 70px;">
+					<i class="icon-SVG_PanelHandleRightDir"></i>
+				</button>
+				<br><br>
+			</div>
+
+			<div class="row">
+				<h2 class="ia-search-details-sidebar-panel-heading ng-binding" style="padding-left: 10px;">Details</h2>
+			</div>
+			<div class="row ia-search-detail-panel-line">
+				<div id="ia-search-run-details-label-basedate" class="col-xs-6 text-right"><strong class="ng-binding">Base Date&nbsp;</strong></div>
+				<div id="ia-search-run-details-value-basedate" class="col-xs-6 ng-binding"></div>
+			</div>
+			<div class="row ia-search-detail-panel-line">
+				<div id="ia-search-run-details-label-disposedate" class="col-xs-6 text-right"><strong class="ng-binding">Projected Disposition Date&nbsp;</strong></div>
+				<div id="ia-search-run-details-value-disposedate" class="col-xs-6 ng-binding"></div>
+			</div>
+			<div class="row ia-search-detail-panel-line">
+				<div id="ia-search-run-details-label-retention" class="col-xs-6 text-right"><strong class="ng-binding">Retention Policy&nbsp;</strong></div>
+				<div id="ia-search-run-details-value-retention" class="col-xs-6 ng-binding">No</div>
+			</div>
+			<div class="row ia-search-detail-panel-line">
+				<div id="ia-search-run-details-label-hold" class="col-xs-6 text-right"><strong class="ng-binding">On Hold&nbsp;</strong></div>
+				<div id="ia-search-run-details-value-hold" class="col-xs-6 ng-binding">No</div>
+			</div>
+			<div ng-repeat="sideTab in cc.sideTabs track by $index">
+				<div class="row">
+					<h1 class="ia-search-details-sidebar-panel-heading"></h1>
+				</div>
+				<h2 ng-if="sideTab.title">{{sideTab.title}}</h2>
+				<div ng-repeat="sideCol in sideTab.columns" class="col-lg-12 col-md-12 col-xs-12" style="padding-top: 5px; padding-bottom: 5px;">
+					<div class="col-xs-6 text-right">
+						<strong>{{sideCol.label}}</strong>
+					</div>
+					<div class="col-xs-6">
+						<span>{{cc.gridRecords[0][sideCol.name].value}}</span>
+					</div>
+				</div>
+			</div>			
+		</div>
+	</div>
+
+</div>

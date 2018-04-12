@@ -1,0 +1,352 @@
+<project name="ia-app-custompresentations" xmlns:if="ant:if" xmlns:unless="ant:unless">
+  <pathconvert property="fixed.basedir" dirsep="/">
+    <path location="${basedir}"/>
+  </pathconvert>
+  <target name="custompresentation-objects" depends="app-custompresentation-objects"/>
+
+  <target name="app-custompresentation-objects">    
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'FormatStringPlugin'</echo>
+    <loadfile property="FormatStringPluginhtmlTemplate" srcFile="${fixed.basedir}/custompresentations/FormatStringPlugin.html"/>
+    <ia-task self="FormatStringPlugin-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-FormatStringPlugin']">
+        <create>
+          <name>${application}-FormatStringPlugin</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of FormatStringPlugin search results.</description>
+          <htmlTemplate ><![CDATA[${FormatStringPluginhtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'AS03_DEP_AREAS_template'</echo>
+    <loadfile property="AS03_DEP_AREAS_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/AS03_DEP_AREAS_template.html"/>
+    <ia-task self="AS03_DEP_AREAS_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-AS03_DEP_AREAS_template']">
+        <create>
+          <name>${application}-AS03_DEP_AREAS_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of AS03_DEP_AREAS_template search results.</description>
+          <htmlTemplate ><![CDATA[${AS03_DEP_AREAS_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'AS03_DISP_ASSET_template'</echo>
+    <loadfile property="AS03_DISP_ASSET_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/AS03_DISP_ASSET_template.html"/>
+    <ia-task self="AS03_DISP_ASSET_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-AS03_DISP_ASSET_template']">
+        <create>
+          <name>${application}-AS03_DISP_ASSET_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of AS03_DISP_ASSET_template search results.</description>
+          <htmlTemplate ><![CDATA[${AS03_DISP_ASSET_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'FBL3N_Data_Entry_View_template'</echo>
+    <loadfile property="FBL3N_Data_Entry_View_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/FBL3N_Data_Entry_View_template.html"/>
+    <ia-task self="FBL3N_Data_Entry_View_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-FBL3N_Data_Entry_View_template']">
+        <create>
+          <name>${application}-FBL3N_Data_Entry_View_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of FBL3N_Data_Entry_View_template search results.</description>
+          <htmlTemplate ><![CDATA[${FBL3N_Data_Entry_View_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'FBL3N_GL_Account_Line_Item_Display_template'</echo>
+    <loadfile property="FBL3N_GL_Account_Line_Item_Display_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/FBL3N_GL_Account_Line_Item_Display_template.html"/>
+    <ia-task self="FBL3N_GL_Account_Line_Item_Display_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-FBL3N_GL_Account_Line_Item_Display_template']">
+        <create>
+          <name>${application}-FBL3N_GL_Account_Line_Item_Display_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of FBL3N_GL_Account_Line_Item_Display_template search results.</description>
+          <htmlTemplate ><![CDATA[${FBL3N_GL_Account_Line_Item_Display_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'VA05_List_Sales_Order_template'</echo>
+    <loadfile property="VA05_List_Sales_Order_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/VA05_List_Sales_Order_template.html"/>
+    <ia-task self="VA05_List_Sales_Order_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-VA05_List_Sales_Order_template']">
+        <create>
+          <name>${application}-VA05_List_Sales_Order_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of VA05_List_Sales_Order_template search results.</description>
+          <htmlTemplate ><![CDATA[${VA05_List_Sales_Order_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'ME23_Display_Purchasing_Document_template'</echo>
+    <loadfile property="ME23_Display_Purchasing_Document_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/ME23_Display_Purchasing_Document_template.html"/>
+    <ia-task self="ME23_Display_Purchasing_Document_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-ME23_Display_Purchasing_Document_template']">
+        <create>
+          <name>${application}-ME23_Display_Purchasing_Document_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of ME23_Display_Purchasing_Document_template search results.</description>
+          <htmlTemplate ><![CDATA[${ME23_Display_Purchasing_Document_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'ME23_Display_Purchasing_Document_GOS_template'</echo>
+    <loadfile property="ME23_Display_Purchasing_Document_GOS_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/ME23_Display_Purchasing_Document_GOS_template.html"/>
+    <ia-task self="ME23_Display_Purchasing_Document_GOS_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-ME23_Display_Purchasing_Document_GOS_template']">
+        <create>
+          <name>${application}-ME23_Display_Purchasing_Document_GOS_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of ME23_Display_Purchasing_Document_GOS_template search results.</description>
+          <htmlTemplate ><![CDATA[${ME23_Display_Purchasing_Document_GOS_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'ME23_Display_Purchasing_Document_Items_template'</echo>
+    <loadfile property="ME23_Display_Purchasing_Document_Items_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/ME23_Display_Purchasing_Document_Items_template.html"/>
+    <ia-task self="ME23_Display_Purchasing_Document_Items_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-ME23_Display_Purchasing_Document_Items_template']">
+        <create>
+          <name>${application}-ME23_Display_Purchasing_Document_Items_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of ME23_Display_Purchasing_Document_Items_template search results.</description>
+          <htmlTemplate ><![CDATA[${ME23_Display_Purchasing_Document_Items_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'F_08_GL_Account_Balances_template'</echo>
+    <loadfile property="F_08_GL_Account_Balances_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/F_08_GL_Account_Balances_template.html"/>
+    <ia-task self="F_08_GL_Account_Balances_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-F_08_GL_Account_Balances_template']">
+        <create>
+          <name>${application}-F_08_GL_Account_Balances_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of F_08_GL_Account_Balances_template search results.</description>
+          <htmlTemplate ><![CDATA[${F_08_GL_Account_Balances_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'MIR5_Display_List_of_Invoice_Document_template'</echo>
+    <loadfile property="MIR5_Display_List_of_Invoice_Document_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/MIR5_Display_List_of_Invoice_Document_template.html"/>
+    <ia-task self="MIR5_Display_List_of_Invoice_Document_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-MIR5_Display_List_of_Invoice_Document_template']">
+        <create>
+          <name>${application}-MIR5_Display_List_of_Invoice_Document_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of MIR5_Display_List_of_Invoice_Document_template search results.</description>
+          <htmlTemplate ><![CDATA[${MIR5_Display_List_of_Invoice_Document_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'VF03_Display_Billing_Document_DISPLAY_template'</echo>
+    <loadfile property="VF03_Display_Billing_Document_DISPLAY_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/VF03_Display_Billing_Document_DISPLAY_template.html"/>
+    <ia-task self="VF03_Display_Billing_Document_DISPLAY_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-VF03_Display_Billing_Document_DISPLAY_template']">
+        <create>
+          <name>${application}-VF03_Display_Billing_Document_DISPLAY_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of VF03_Display_Billing_Document_DISPLAY_template search results.</description>
+          <htmlTemplate ><![CDATA[${VF03_Display_Billing_Document_DISPLAY_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'VF03_Partner_Item_detail_template'</echo>
+    <loadfile property="VF03_Partner_Item_detail_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/VF03_Partner_Item_detail_template.html"/>
+    <ia-task self="VF03_Partner_Item_detail_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-VF03_Partner_Item_detail_template']">
+        <create>
+          <name>${application}-VF03_Partner_Item_detail_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of VF03_Partner_Item_detail_template search results.</description>
+          <htmlTemplate ><![CDATA[${VF03_Partner_Item_detail_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'VF03_Invoice_Display_Overview_of_Billing_Items_template'</echo>
+    <loadfile property="VF03_Invoice_Display_Overview_of_Billing_Items_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/VF03_Invoice_Display_Overview_of_Billing_Items_template.html"/>
+    <ia-task self="VF03_Invoice_Display_Overview_of_Billing_Items_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-VF03_Invoice_Display_Overview_of_Billing_Items_template']">
+        <create>
+          <name>${application}-VF03_Invoice_Display_Overview_of_Billing_Items_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of VF03_Invoice_Display_Overview_of_Billing_Items_template search results.</description>
+          <htmlTemplate ><![CDATA[${VF03_Invoice_Display_Overview_of_Billing_Items_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'VF03_Head_prtnrs_template'</echo>
+    <loadfile property="VF03_Head_prtnrs_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/VF03_Head_prtnrs_template.html"/>
+    <ia-task self="VF03_Head_prtnrs_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-VF03_Head_prtnrs_template']">
+        <create>
+          <name>${application}-VF03_Head_prtnrs_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of VF03_Head_prtnrs_template search results.</description>
+          <htmlTemplate ><![CDATA[${VF03_Head_prtnrs_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+    
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'FB03_Display_Document_Line_Item_template'</echo>
+    <loadfile property="FB03_Display_Document_Line_Item_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/FB03_Display_Document_Line_Item_template.html"/>
+    <ia-task self="FB03_Display_Document_Line_Item_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-FB03_Display_Document_Line_Item_template']">
+        <create>
+          <name>${application}-FB03_Display_Document_Line_Item_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of FB03_Display_Document_Line_Item_template search results.</description>
+          <htmlTemplate ><![CDATA[${FB03_Display_Document_Line_Item_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+    
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'FB03_Financial_Document_template'</echo>
+    <loadfile property="FB03_Financial_Document_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/FB03_Financial_Document_template.html"/>
+    <ia-task self="FB03_Financial_Document_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-FB03_Financial_Document_template']">
+        <create>
+          <name>${application}-FB03_Financial_Document_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of FB03_Financial_Document_template search results.</description>
+          <htmlTemplate ><![CDATA[${FB03_Financial_Document_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+    
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'FB03_FInancial_Document_GOS_template'</echo>
+    <loadfile property="FB03_FInancial_Document_GOS_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/FB03_FInancial_Document_GOS_template.html"/>
+    <ia-task self="FB03_FInancial_Document_GOS_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-FB03_FInancial_Document_GOS_template']">
+        <create>
+          <name>${application}-FB03_FInancial_Document_GOS_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of FB03_FInancial_Document_GOS_template search results.</description>
+          <htmlTemplate ><![CDATA[${FB03_FInancial_Document_GOS_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+    
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'FAGLL03_GL_Account_Line_Item_Display_template'</echo>
+    <loadfile property="FAGLL03_GL_Account_Line_Item_Display_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/FAGLL03_GL_Account_Line_Item_Display_template.html"/>
+    <ia-task self="FAGLL03_GL_Account_Line_Item_Display_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-FAGLL03_GL_Account_Line_Item_Display_template']">
+        <create>
+          <name>${application}-FAGLL03_GL_Account_Line_Item_Display_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of FAGLL03_GL_Account_Line_Item_Display_template search results.</description>
+          <htmlTemplate ><![CDATA[${FAGLL03_GL_Account_Line_Item_Display_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+    
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'FBL1N_Vendor_Items_Display_template'</echo>
+    <loadfile property="FBL1N_Vendor_Items_Display_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/FBL1N_Vendor_Items_Display_template.html"/>
+    <ia-task self="FBL1N_Vendor_Items_Display_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-FBL1N_Vendor_Items_Display_template']">
+        <create>
+          <name>${application}-FBL1N_Vendor_Items_Display_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of FBL1N_Vendor_Items_Display_template search results.</description>
+          <htmlTemplate ><![CDATA[${FBL1N_Vendor_Items_Display_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+    
+
+    <!--  Custom presentation configurations -->
+    <echo>Configuring custompresentations-configuration object with name 'FBL5N_Customer_Line_Items_Display_template'</echo>
+    <loadfile property="FBL5N_Customer_Line_Items_Display_templatehtmlTemplate" srcFile="${fixed.basedir}/custompresentations/FBL5N_Customer_Line_Items_Display_template.html"/>
+    <ia-task self="FBL5N_Customer_Line_Items_Display_template-config">
+      <object typeAlias="app-custompresentation-configuration"
+              checkExistSpEL="?[name=='${application}-FBL5N_Customer_Line_Items_Display_template']">
+        <create>
+          <name>${application}-FBL5N_Customer_Line_Items_Display_template</name>
+        </create>
+        <update>
+          <description>Simple customization of a page full of FBL5N_Customer_Line_Items_Display_template search results.</description>
+          <htmlTemplate ><![CDATA[${FBL5N_Customer_Line_Items_Display_templatehtmlTemplate}]]></htmlTemplate>
+        </update>
+      </object>
+    </ia-task>
+    
+  </target>
+</project>
